@@ -69,7 +69,7 @@ def get_skills_of_contributor(contr_name):
     #todo: finish
     return {}
 
-def process(data):
+def contributors_expanded(data):
 
     # Sort by project score to time ratio
     projects_tuples = sorted(data['projects'].items(), key=lambda x: x[1]['score'] / x[1]['days_to_complete'], reverse=True)
@@ -78,7 +78,34 @@ def process(data):
         p[1]['name'] = p[0]
         projects.append(p[1])
     # [{'name': 'proj2', 'score': 20, 'days_to_complete': 7, 'best_before': 10, 'roles': {'HTML': 1, 'CSS': 4}}, ...]
-    
+    return projects
+
+
+def process_v1(data):
+    projects = contributors_expanded(data)
+    output = {}
+    contributors = data['contributors']
+    for project in projects:
+        currentContributors = []
+        for requestedSkill, level in project['roles'].items():
+            contr_possible, _ = get_contributors_by_skill(contributors, requestedSkill, level)
+            if len(contr_possible) > 0:
+                currentContributor = contr_possible[0][0]
+                currentContributors.append(currentContributor)
+                del contributors[currentContributor]
+            else:
+                # cannot find contributor for projecct
+                pass
+        found_c = len(currentContributors)
+        needed_c = len(project['roles'])
+        if found_c > 0:
+            if found_c == needed_c:
+                output[project['name']] = currentContributors
+    return output
+
+
+def process_v2(data):
+    projects = contributors_expanded(data)
     output = {}
     contributors = data['contributors']
 
