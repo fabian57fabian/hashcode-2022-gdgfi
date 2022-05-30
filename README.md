@@ -20,3 +20,9 @@ python3 main.py
 - **inputs**: All datasets have to be inside *input_data* folder (can be configured inside main.py to point to other locations).
 
 - **outputs**: All outputs will be automatically put inside *out* folder (can be configured inside write_output.py script).
+
+## The Team
+
+Here we are! ^_^
+
+![The Team](https://github.com/fabian57fabian/hashcode-2022-gdgfi/blob/master/assets/images/GDGFlorenceHashCode2022.jpg?raw=true)
